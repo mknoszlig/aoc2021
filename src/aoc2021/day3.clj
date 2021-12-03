@@ -51,10 +51,9 @@
           report-data))
 
 (defn apply-criterion [crit-fn report-data pos]
-  (let [freqs (bit-freqs report-data)]
-    (select-with-bit report-data
-                     pos
-                     (bit-criterion crit-fn freqs pos))))
+  (select-with-bit report-data
+                   pos
+                   (bit-criterion crit-fn (bit-freqs report-data) pos)))
 
 (defn exhaust-criterion [crit-fn data]
   (->> (iterate (fn [[d i]]
