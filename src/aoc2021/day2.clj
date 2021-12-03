@@ -15,13 +15,12 @@
        (take 2)
        (apply *)))
 
-
-;; part 1
-
 (def moves
   {:forward [1 0]
    :up      [0 -1]
    :down    [0 1]})
+
+;; part 1
 
 (defn move [[x y] [direction amount]]
   {:post [(not-any? neg? %)]}
@@ -32,16 +31,11 @@
 
 ;; part 2
 
-(def aim-moves
-  {:forward [1 1 0]
-   :up      [0 0 -1]
-   :down    [0 0 1]})
-
 (defn aim-and-move [[x y a] [direction amount]]
   {:post [(not-any? neg? %)]}
-  (let [[mx my ma] (get aim-moves direction)]
+  (let [[mx ma] (get moves direction)]
     [(+ x (* mx amount))
-     (+ y (* my a amount))
+     (+ y (* mx a amount))
      (+ a (* ma amount))]))
 
 
