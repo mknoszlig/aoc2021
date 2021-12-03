@@ -1,11 +1,9 @@
 (ns day1
-  (:require [clojure.java.io :as io]
-            [clojure.string :as s]))
+  (:require [clojure.string :as s]))
 
 (def ms
-  (->> (io/resource "day1.txt")
-       io/reader
-       (line-seq)
+  (->> (slurp "resources/day1.txt")
+       s/split-lines
        (mapv #(Integer/parseInt %))))
 
 (defn count-increases [ms window-size]

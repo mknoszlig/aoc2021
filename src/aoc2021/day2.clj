@@ -1,15 +1,13 @@
 (ns day2
-  (:require [clojure.java.io :as io]
-            [clojure.string :as s]))
+  (:require [clojure.string :as s]))
 
 (defn parse-cmd [l]
   (let [[cmd amt] (s/split l #"\s")]
     [(keyword cmd) (Integer/parseInt amt)]))
 
 (def commands
-  (->> (io/resource "day2.txt")
-       io/reader
-       (line-seq)
+  (->> (slurp "resources/day2.txt")
+       s/split-lines
        (mapv parse-cmd)))
 
 (defn command-multiple [cmds reduce-fn init]
