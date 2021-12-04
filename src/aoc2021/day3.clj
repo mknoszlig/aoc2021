@@ -9,10 +9,7 @@
        (map frequencies)))
 
 (defn base2->10 [bits]
-  (let [num-bits (map (comp #(Integer/parseInt %) str) bits)]
-    (->> (map list (reverse num-bits) (iterate (partial * 2) 1))
-         (map (partial apply *))
-         (reduce +))))
+  (Integer/parseInt (apply str bits) 2))
 
 (defn vmin [freqs]
   (if (apply = (vals freqs))
