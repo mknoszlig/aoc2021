@@ -1,7 +1,7 @@
 (ns day4
   (:require [clojure.string :as s]
-            [clojure.edn :as edn]
-            [clojure.set :as cs]))
+            [clojure.edn :as edn]))
+
 (defn wrap-edn-vec [str]
   (edn/read-string (format "[%s]" str)))
 
