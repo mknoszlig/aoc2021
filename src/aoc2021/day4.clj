@@ -43,7 +43,7 @@
        :boards (mapv #(update-board % draw) boards)}
       state)))
 
-(defn remove-bingos [state]
+(defn remove-winners [state]
   (update state :boards #(remove bingo? %)))
 
 (defn find-bingo [init-state]
@@ -52,7 +52,7 @@
        first))
 
 (defn find-last-bingo [init-state]
-  (->> (iterate (comp remove-bingos step) input)
+  (->> (iterate (comp remove-winners step) input)
        (drop-while #(> (count (:boards %)) 1))
        first
        find-bingo))
