@@ -43,9 +43,8 @@
        :boards (mapv #(update-board % draw) boards)}
       state)))
 
-(defn rm-step [state]
-  (-> (step state)
-      (update :boards #(remove bingo? %))))
+(defn remove-bingos [state]
+  (update state :boards #(remove bingo? %)))
 
 (defn find-bingo [init-state]
   (->> (iterate step init-state)
@@ -53,12 +52,10 @@
        first))
 
 (defn find-last-bingo [init-state]
-  (->> (iterate rm-step input)
+  (->> (iterate (comp remove-bingos step) input)
        (drop-while #(> (count (:boards %)) 1))
        first
-       (iterate step)
-       (drop-while #(not-any? bingo? (:boards %)))
-       first))
+       find-bingo))
 
 (printf "part 1: %s\n" (score (find-bingo input)))
 
