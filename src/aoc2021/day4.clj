@@ -48,7 +48,7 @@
       (update :boards #(remove bingo? %))))
 
 (defn find-bingo [init-state]
-  (->> (iterate step input)
+  (->> (iterate step init-state)
        (drop-while #(not-any? bingo? (:boards %)))
        first))
 
