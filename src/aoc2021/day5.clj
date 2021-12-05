@@ -20,11 +20,12 @@
     (range x (mod x') (mod 0))))
 
 (defn tips->points [[[x y] [x' y'] :as segment]]
-  (if (diagonal? segment)
-    (mapv vector (inc-range x x') (inc-range y y'))
-    (for [rx (inc-range x x')
-          ry (inc-range y y')]
-      [rx ry])))
+  (cond (diagonal? segment)
+        (mapv vector (inc-range x x') (inc-range y y'))
+        (= x x')
+        (mapv vector (repeat x) (inc-range y y'))
+        (= y y')
+        (mapv vector (inc-range x x') (repeat y))))
 
 (defn intersections [coord-tips]
   (->> (mapcat tips->points coord-tips)
