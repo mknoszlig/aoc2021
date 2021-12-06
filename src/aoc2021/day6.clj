@@ -12,8 +12,7 @@
 
 (defn fish-after-gens [n]
   (->> (iterate update-state (frequencies input))
-       (take (inc n))
-       last
+       (#(nth % n))
        vals
        (reduce +)))
 
