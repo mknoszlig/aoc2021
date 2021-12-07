@@ -4,10 +4,13 @@
 
 (def input (edn/read-string (format "[%s]" (slurp "resources/day7.txt"))))
 
+(defn abs [x]
+  (if (pos? x) x (- x)))
+
 (defn fuel-at [m cost-fn pos]
   (reduce (fn [acc [p subs]]
             (+ acc
-               (cost-fn subs (Math/abs (- pos p)))))
+               (cost-fn subs (abs (- pos p)))))
           0
           m))
 
