@@ -12,7 +12,9 @@
           m))
 
 (defn exorbitant-cost [boats distance]
-  (reduce (fn [acc d] (+ acc (* boats d))) 0 (range 1 (inc distance))))
+  (* boats
+     (/ (* distance (inc distance))
+        2)))
 
 (defn bin-search [cost-at-pos pmin pmax]
   (let [middle (int (/ (+ pmax pmin) 2))]
