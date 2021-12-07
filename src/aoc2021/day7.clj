@@ -14,13 +14,23 @@
 (defn exorbitant-cost [boats distance]
   (reduce (fn [acc d] (+ acc (* boats d))) 0 (range 1 (inc distance))))
 
+(defn bin-search [cost-at-pos pmin pmax]
+  (let [middle (int (/ (+ pmax pmin) 2))]
+    (cond (= pmin middle pmax)
+          (cost-at-pos pmin)
+          (= 1 (- pmax pmin))
+          (cost-at-pos (inc pmin))
+          (< (cost-at-pos pmin)
+             (cost-at-pos pmax))
+          (recur cost-at-pos pmin middle)
+          :else
+          (recur cost-at-pos middle pmax))))
+
 (defn min-fuel [input cost-fn]
-  (->> (map (partial fuel-at (frequencies input) cost-fn) (range (apply max input)))
-       (partition 2 1)
-       (drop-while (partial apply >))
-       ffirst))
+  (bin-search (partial fuel-at (frequencies input) cost-fn)
+              0
+              (apply max input)))
 
 (printf "part 1: %s\n" (time (min-fuel input *)))
 
 (printf "part 2: %s\n" (time (min-fuel input exorbitant-cost)))
-
