@@ -29,10 +29,9 @@
 
 (defn parse [chunk]
   (reduce (fn [[h & t :as stack] c]
-            (cond (closing c)
+            (cond (get closing c)
                   (cons c stack)
-                  (and (= c (closing h))
-                       (syntax-scores c))
+                  (= c (closing h))
                   t
                   :else
                   (reduced (syntax-scores c))))
