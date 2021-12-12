@@ -34,27 +34,29 @@
     (cond (= from to)
           (conj found path)
           (empty? options)
-          #{}
+          nil
           :else
           (reduce (fn [found opt]
-                    (apply conj found
-                           (paths adjacency
-                                  opt
-                                  to
-                                  #{}
-                                  (conj path opt)
-                                  (if (small? opt)
-                                    (conj small-seen? opt)
-                                    small-seen?)
-                                  options-fn)))
+                    (->> (paths adjacency
+                                opt
+                                to
+                                #{}
+                                (conj path opt)
+                                (if (small? opt)
+                                  (conj small-seen? opt)
+                                  small-seen?)
+                                options-fn)
+                         (into found)))
                   found
                   options))))
 
-(printf "part 1: %s\n" (time (-> (paths adjacency "start" "end" #{} ["start"] #{"start"} small-visit-once)
-                               count)))
+(def run-search (partial paths adjacency "start" "end" #{} ["start"] #{"start"}))
 
-(printf "part 2: %s\n" (time (-> (paths adjacency "start" "end" #{} ["start"] #{"start"} one-double-visit)
-                               count)))
+(printf "part 1: %s\n" (time (-> (run-search small-visit-once )
+                                 count)))
+
+(printf "part 2: %s\n" (time (-> (run-search one-double-visit)
+                                 count)))
 
 ;; > time clojure -M src/aoc2021/day12.clj
 ;; "Elapsed time: 85.243511 msecs"
